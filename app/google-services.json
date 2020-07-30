@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "745841345399",
+    "firebase_url": "https://hospital-beds.firebaseio.com",
+    "project_id": "hospital-beds",
+    "storage_bucket": "hospital-beds.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745841345399:android:a0feb8622803eb97d79772",
+        "android_client_info": {
+          "package_name": "com.athishworks.ccc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745841345399-t5ub0d45go2pieqp884g697a29rubrms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbDzEy76-QCO2HfQjPo9agnyW8vkMPXLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745841345399-t5ub0d45go2pieqp884g697a29rubrms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745841345399:android:f49fb57e8d6e10abd79772",
+        "android_client_info": {
+          "package_name": "com.athishworks.covidbedscounts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745841345399-t5ub0d45go2pieqp884g697a29rubrms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbDzEy76-QCO2HfQjPo9agnyW8vkMPXLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745841345399-t5ub0d45go2pieqp884g697a29rubrms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

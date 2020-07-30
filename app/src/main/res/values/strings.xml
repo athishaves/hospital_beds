@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">CCC</string>
+
+    <!-- Main Activity -->
+    <string name="logged_in_before"><u>Logged in before?\nThen Sign in</u></string>
+    <string name="skip_signin"><u>Skip Sign in >></u></string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="enter_pass">Enter your password</string>
+    <string name="enter_mail">Enter your mail address</string>
+    <string name="title_activity_locate_centers">Map</string>
+    <string name="title_activity_locate_center">Map</string>
+
+    <string name="empty_message">Text Fields cannot be empty</string>
+
+</resources>
