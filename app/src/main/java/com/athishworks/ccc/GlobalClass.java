@@ -5,10 +5,12 @@ package com.athishworks.ccc;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class GlobalClass {
 
     // Calling a toast
-    static void callAToast(Context context, String a) {
+    public static void callAToast(Context context, String a) {
         Toast.makeText(context, a, Toast.LENGTH_SHORT).show();
     }
 

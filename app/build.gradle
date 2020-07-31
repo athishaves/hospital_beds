@@ -46,4 +46,7 @@ dependencies {
     // Firebase Authentication
     implementation 'com.google.firebase:firebase-auth:19.3.2'
 
+    // Realtime Database
+    implementation 'com.google.firebase:firebase-database:19.3.1'
+
 }

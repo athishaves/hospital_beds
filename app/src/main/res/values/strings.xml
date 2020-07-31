@@ -12,4 +12,16 @@
 
     <string name="empty_message">Text Fields cannot be empty</string>
 
+
+    <!-- Hospital Beds Activity -->
+    <string name="search_hospitals">Search Hospitals</string>
+    <string name="add_center">Add Center</string>
+    <string name="save_changes">Save Changes</string>
+
+
+    <!-- Hospital Lists -->
+    <string name="edit_hospital_details">Edit Hospital Details</string>
+    <string name="delete_hospital_details">Delete Hospital Details</string>
+
+
 </resources>
