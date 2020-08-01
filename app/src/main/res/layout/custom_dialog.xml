@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    app:cardCornerRadius="10dp"
+    android:elevation="10dp"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:elevation="10dp"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/lightGreen">
+
+            <TextView
+                android:id="@+id/name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Enter Care center name"
+                app:layout_constraintBottom_toTopOf="@id/care_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/care_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Care center name"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintBottom_toTopOf="@id/address_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name_textview" />
+
+            <TextView
+                android:id="@+id/address_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Enter Care center address"
+                app:layout_constraintBottom_toTopOf="@id/care_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/care_name" />
+
+            <EditText
+                android:id="@+id/care_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Care center address"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintBottom_toTopOf="@id/available_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_textview" />
+
+            <TextView
+                android:id="@+id/available_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Latitude"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toTopOf="@id/latitude"
+                app:layout_constraintEnd_toStartOf="@id/total_textview"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/care_address" />
+
+            <TextView
+                android:id="@+id/total_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:text="Longitude"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toBottomOf="@id/available_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/available_textview"
+                app:layout_constraintTop_toTopOf="@id/available_textview" />
+
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Latitude"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintBottom_toTopOf="@id/latitude_textview"
+                app:layout_constraintEnd_toStartOf="@id/longitude"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/available_textview" />
+
+            <EditText
+                android:id="@+id/longitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Longitude"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/latitude"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/latitude"
+                app:layout_constraintTop_toTopOf="@id/latitude" />
+
+            <TextView
+                android:id="@+id/latitude_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Available Beds"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toTopOf="@id/available_beds"
+                app:layout_constraintEnd_toStartOf="@id/longitude_textview"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/latitude" />
+
+            <TextView
+                android:id="@+id/longitude_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:text="Total Beds"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toBottomOf="@id/latitude_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/latitude_textview"
+                app:layout_constraintTop_toTopOf="@id/latitude_textview" />
+
+            <EditText
+                android:id="@+id/available_beds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Available beds"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintBottom_toTopOf="@id/cancel_button"
+                app:layout_constraintEnd_toStartOf="@id/total_beds"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/latitude_textview" />
+
+            <EditText
+                android:id="@+id/total_beds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Total beds"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/available_beds"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/available_beds"
+                app:layout_constraintTop_toTopOf="@id/available_beds" />
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Cancel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ok_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/available_beds" />
+
+            <Button
+                android:id="@+id/ok_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="@id/cancel_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cancel_button"
+                app:layout_constraintTop_toTopOf="@id/cancel_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</ScrollView>

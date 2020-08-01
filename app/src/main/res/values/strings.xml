@@ -10,7 +10,7 @@
     <string name="title_activity_locate_centers">Map</string>
     <string name="title_activity_locate_center">Map</string>
 
-    <string name="empty_message">Text Fields cannot be empty</string>
+    <string name="empty_message">Input Fields cannot be empty</string>
 
 
     <!-- Hospital Beds Activity -->

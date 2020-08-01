@@ -6,9 +6,17 @@ public class HospitalDetails {
     int totalBeds, availableBeds;
     Double latitude, longitude;
 
+
     public HospitalDetails() {
         // Required
+        this.name = "";
+        this.address = "";
+        this.totalBeds = 0;
+        this.availableBeds = 0;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
     }
+
 
     public HospitalDetails(String name, String address, int totalBeds, int availableBeds, Double latitude, Double longitude) {
         this.name = name;
@@ -18,6 +26,7 @@ public class HospitalDetails {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
 
     public String getName() {
         return name;
