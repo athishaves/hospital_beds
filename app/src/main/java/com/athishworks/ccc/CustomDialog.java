@@ -2,9 +2,12 @@ package com.athishworks.ccc;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,14 +19,22 @@ import com.athishworks.ccc.pojomodels.HospitalDetails;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class CustomDialog extends Dialog implements View.OnClickListener {
 
     Context context;
     Dialog dialog;
 
-    EditText hName, hAddress, hLatitude, hLongitude, hAvailableBeds, hTotalBeds;
+    EditText hName, hAddress, hLatitude, hLongitude, hAvailableBeds, hTotalBeds, hPhone;
 
     String keyId;
+
+    Timer timer;
 
 
     public CustomDialog(@NonNull Context context) {
@@ -89,6 +100,9 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
         hTotalBeds = dialog.findViewById(R.id.total_beds);
         hTotalBeds.setText(String.valueOf(details.getTotalBeds()));
 
+        hPhone = dialog.findViewById(R.id.care_contact);
+        hPhone.setText(String.valueOf(details.getPhoneNo()));
+
 
         hAddress.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,20 +112,50 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String latLong = GlobalClass.getLocation(context, s.toString());
-                if (latLong.equals("-1"))
-                    return;
-
-                hLatitude.setText(latLong.split(" ")[0]);
-                hLongitude.setText(latLong.split(" ")[1]);
+                // Required
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                // Required
+            public void afterTextChanged(final Editable s) {
+                if (s==null || s.toString().trim().equals(""))
+                    return;
+
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Log.i("TextChange", "Run method started");
+                        String latLong = getLocation(s.toString());
+                        if (latLong.equals("-1"))
+                            return;
+
+                        hLatitude.setText(latLong.split(" ")[0]);
+                        hLongitude.setText(latLong.split(" ")[1]);
+                    }
+                }, 500); // 500ms delay before the timer executes the run method from TimerTask
             }
+
         });
 
+    }
+
+
+
+    // Get location from the give address...
+    // Returns -1 if latitude, longitude is not found
+    String getLocation(String locationAddress) {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        String result = "-1";
+        try {
+            List<Address> addressList = geocoder.getFromLocationName(locationAddress, 1);
+            if (addressList != null && addressList.size() > 0) {
+                Address address = addressList.get(0);
+                result = address.getLatitude() + " " + address.getLongitude();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
@@ -125,6 +169,9 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
         // cancel button is clicked
         else dialog.dismiss();
 
+        if (timer!=null)
+            timer.cancel();
+
     }
 
 
@@ -134,7 +181,7 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
 
         if (checkIfNull(hName) || checkIfNull(hAddress) ||
                 checkIfNull(hLatitude) || checkIfNull(hLongitude) ||
-                checkIfNull(hAvailableBeds) || checkIfNull(hTotalBeds)) {
+                checkIfNull(hAvailableBeds) || checkIfNull(hTotalBeds) || checkIfNull(hPhone)) {
 
                    GlobalClass.callAToast(context, context.getString(R.string.empty_message));
                    return;
@@ -147,6 +194,14 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
                 || Integer.parseInt(hTotalBeds.getText().toString())<0) {
 
             GlobalClass.callAToast(context, "Enter the values properly");
+            return;
+        }
+
+        // Checks if the phone number is entered properly
+
+        if (hPhone.getText().toString().trim().length()!=10) {
+
+            GlobalClass.callAToast(context, "Phone number is not proper");
             return;
         }
 
@@ -164,7 +219,8 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
         HospitalDetails hospitalDetails = new HospitalDetails(
                 hName.getText().toString().trim(), hAddress.getText().toString().trim(),
                     Integer.parseInt(hTotalBeds.getText().toString()), Integer.parseInt(hAvailableBeds.getText().toString()),
-                    Double.parseDouble(hLatitude.getText().toString()), Double.parseDouble(hLongitude.getText().toString()));
+                    Double.parseDouble(hLatitude.getText().toString()), Double.parseDouble(hLongitude.getText().toString()),
+                    hPhone.getText().toString().trim());
 
 
         // updating the database

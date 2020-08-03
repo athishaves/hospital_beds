@@ -2,7 +2,7 @@ package com.athishworks.ccc.pojomodels;
 
 public class HospitalDetails {
 
-    String name, address, keyId;
+    String name, address, keyId, phoneNo;
     int totalBeds, availableBeds;
     Double latitude, longitude;
 
@@ -11,6 +11,7 @@ public class HospitalDetails {
         // Required
         this.name = "";
         this.address = "";
+        this.phoneNo = "";
         this.totalBeds = 0;
         this.availableBeds = 0;
         this.latitude = 0.0;
@@ -18,13 +19,17 @@ public class HospitalDetails {
     }
 
 
-    public HospitalDetails(String name, String address, int totalBeds, int availableBeds, Double latitude, Double longitude) {
+    public HospitalDetails(String name, String address,
+                           int totalBeds, int availableBeds,
+                           Double latitude, Double longitude,
+                           String phoneNo) {
         this.name = name;
         this.address = address;
         this.totalBeds = totalBeds;
         this.availableBeds = availableBeds;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.phoneNo = phoneNo;
     }
 
 
@@ -56,6 +61,10 @@ public class HospitalDetails {
         return keyId;
     }
 
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -82,5 +91,9 @@ public class HospitalDetails {
 
     public void setKeyId(String keyId) {
         this.keyId = keyId;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 }

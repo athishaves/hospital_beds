@@ -24,4 +24,15 @@
     <string name="delete_hospital_details">Delete Hospital Details</string>
 
 
+    <!-- Custom dialog -->
+    <string name="edit_care_center_name">Care center Name</string>
+    <string name="edit_care_center_address">Care center Address</string>
+    <string name="edit_care_center_contact">Contact Details</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="available_beds">Available Beds</string>
+    <string name="total_beds">Total Beds</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+
 </resources>

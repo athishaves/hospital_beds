@@ -64,11 +64,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openActivity(LocateCenter.class, true);
                 break;
             case R.id.button:
-//                signIn();
-                // TODO : Change later
-                openActivity(HospitalBeds.class, false);
+                signIn();
                 break;
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        skip_signin.setClickable(true);
+        signInButton.setEnabled(true);
     }
 
 
@@ -111,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+        skip_signin.setClickable(false);
+        signInButton.setEnabled(false);
+
         // Signs in if all the fields are non-empty
 
         firebaseAuth
@@ -118,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        openActivity(HospitalBeds.class, true);
+                        openActivity(HospitalBeds.class, false);
                         GlobalClass.callAToast(MainActivity.this, "Signed in successfully");
                     }
                 })
@@ -128,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("SignIn", "Sign in failure\n" + e.getMessage());
                         GlobalClass.callAToast(MainActivity.this,
                                 "Check your mail and password..");
+                        skip_signin.setClickable(true);
+                        signInButton.setEnabled(true);
                     }
                 });
 

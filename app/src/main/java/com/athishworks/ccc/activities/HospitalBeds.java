@@ -22,6 +22,7 @@ import com.athishworks.ccc.GlobalClass;
 import com.athishworks.ccc.R;
 import com.athishworks.ccc.adapter.HospitalAdapter;
 import com.athishworks.ccc.pojomodels.HospitalDetails;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HospitalBeds extends AppCompatActivity implements View.OnClickListener {
+public class HospitalBeds extends AppCompatActivity {
 
     RecyclerView hospitalLists;
     HospitalAdapter mAdapter;
@@ -49,13 +50,12 @@ public class HospitalBeds extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_hospital_beds);
 
 
-        // TODO : Uncomment later !!!
 
         // Exits the activity if the admin is not logged in
-//        FirebaseAuth auth = FirebaseAuth.getInstance();
-//        if (auth.getCurrentUser()==null) {
-//            finish();
-//        }
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser()==null) {
+            finish();
+        }
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("hospitals");
@@ -69,10 +69,13 @@ public class HospitalBeds extends AppCompatActivity implements View.OnClickListe
         searchField();
 
 
-        Button saveChanges = findViewById(R.id.save_changes);
-        saveChanges.setOnClickListener(this);
         Button addCenter = findViewById(R.id.add_center);
-        addCenter.setOnClickListener(this);
+        addCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callDialog(new HospitalDetails());
+            }
+        });
 
 
 
@@ -235,19 +238,6 @@ public class HospitalBeds extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add_center:
-                callDialog(new HospitalDetails());
-                break;
-
-            case R.id.save_changes:
-                break;
-        }
     }
 
 

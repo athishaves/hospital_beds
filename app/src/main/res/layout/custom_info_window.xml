@@ -8,16 +8,26 @@
     <TextView
         android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_title" />
+        android:id="@+id/name" />
 
     <TextView
         android:textSize="18sp"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/snippet" />
+        android:id="@+id/address" />
+
+    <TextView
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bed_count" />
+
+    <TextView
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone" />
 
 </LinearLayout>

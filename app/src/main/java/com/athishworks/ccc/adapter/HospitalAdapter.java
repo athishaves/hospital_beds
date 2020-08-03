@@ -1,6 +1,8 @@
 package com.athishworks.ccc.adapter;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +55,11 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         holder.name.setText(curHospital.getName());
         holder.address.setText(curHospital.getAddress());
 
-        String a = curHospital.getAvailableBeds() + "/" + curHospital.getTotalBeds();
-        holder.bedCount.setText(a);
+        String a = "Phone Number : " + curHospital.getPhoneNo();
+        holder.phone.setText(a);
+
+        a = "Bed Count : " + "<b>" + curHospital.getAvailableBeds() + "</b>" + "/" + curHospital.getTotalBeds();
+        holder.bedCount.setText(Html.fromHtml(a));
 
         a = "Lat : " + curHospital.getLatitude() + "\nLong : " + curHospital.getLongitude();
         holder.location.setText(a);
@@ -78,7 +83,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView name, address, bedCount, location;
+        public TextView name, address, bedCount, location, phone;
         public ImageView editButton, deleteButton;
 
         public ViewHolder(View v) {
@@ -87,6 +92,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             address = v.findViewById(R.id.address);
             bedCount = v.findViewById(R.id.bed_count);
             location = v.findViewById(R.id.location);
+            phone = v.findViewById(R.id.phone);
 
             editButton = v.findViewById(R.id.edit_button);
             deleteButton = v.findViewById(R.id.delete_button);

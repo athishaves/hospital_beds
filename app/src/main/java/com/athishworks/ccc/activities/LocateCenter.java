@@ -3,12 +3,21 @@ package com.athishworks.ccc.activities;
 // Map Activity where the location of covid centers are displayed
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -51,14 +60,20 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
 
-        LatLng Bengaluru = new LatLng(12.9716, 77.5946);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Bengaluru));
+        if (checkLocationPermission()) {
+            locationIsTurnedOn();
+
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    GlobalClass.locationPermission);
+        }
+
 
         mMap.setMinZoomPreference(GlobalClass.zoomPreference);
 
@@ -74,12 +89,68 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
                 MapStyleOptions.loadRawResourceStyle(
                         this, R.raw.map_style)))
             Log.i("Location", "Style updated successfully");
-        else Log.e("Location", "Style couldnt be updated");
+        else Log.e("Location", "Style couldn't be updated");
 
         databaseReference = FirebaseDatabase.getInstance().getReference("hospitals");
 
         populateList();
 
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                String[] details = marker.getSnippet().split(GlobalClass.splitCondition);
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                String p = "tel:" + details[2];
+                intent.setData(Uri.parse(p));
+                startActivity(intent);
+            }
+        });
+
+    }
+
+
+    // Check if location permissions are granted
+
+    boolean checkLocationPermission() {
+        return (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                    &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode==GlobalClass.locationPermission) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (!checkLocationPermission())
+                    locationIsTurnedOn();
+            } else {
+                GlobalClass.callAToast(LocateCenter.this, "Current location is set to Bengaluru");
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(12.9716, 77.5946),
+                        GlobalClass.zoomPreference + 4));
+            }
+        }
+    }
+
+
+    // Method which moves the camera to the center of the user's location
+
+    private void locationIsTurnedOn() {
+        if (!checkLocationPermission())
+            return;
+
+        mMap.setMyLocationEnabled(true);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        if (location!=null)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),
+                    GlobalClass.zoomPreference + 4));
     }
 
 
@@ -116,8 +187,10 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
                     LatLng latLng = new LatLng(details.getLatitude(), details.getLongitude());
 
                     String sb = details.getAddress() +
-                            "\n" +
-                            "Beds available : " + details.getAvailableBeds() + "/" + details.getTotalBeds();
+                            GlobalClass.splitCondition +
+                            "Beds available : " + "<b>" + details.getAvailableBeds() + "</b>" + "/" + details.getTotalBeds() +
+                            GlobalClass.splitCondition +
+                            details.getPhoneNo();
 
                     MarkerOptions options = new MarkerOptions()
                             .position(latLng)
@@ -130,8 +203,6 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
 
                     mMap.addMarker(options);
                 }
-
-                GlobalClass.callAToast(LocateCenter.this, "Map updated");
             }
 
             @Override
