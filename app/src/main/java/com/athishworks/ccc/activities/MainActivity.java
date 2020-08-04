@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.skip_login:
-                openActivity(LocateCenter.class, true);
+                openActivity(LocateCenter.class);
                 break;
             case R.id.button:
                 signIn();
@@ -75,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         skip_signin.setClickable(true);
         signInButton.setEnabled(true);
+
+        TextInputEditText email = findViewById(R.id.mail);
+        email.setText("");
+        email.requestFocus();
+
+        TextInputEditText pass = findViewById(R.id.pass);
+        pass.setText("");
     }
 
 
@@ -86,12 +93,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextInputEditText email = findViewById(R.id.mail);
         if (email.getText()==null) {
             email.setError(getString(R.string.empty_message));
+            email.requestFocus();
             GlobalClass.callAToast(MainActivity.this, getString(R.string.empty_message));
             return;
         }
         String mailText = email.getText().toString();
         if(mailText.trim().isEmpty()) {
             email.setText("");
+            email.requestFocus();
             email.setError(getString(R.string.empty_message));
             GlobalClass.callAToast(MainActivity.this, getString(R.string.empty_message));
             return;
@@ -102,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextInputEditText pass = findViewById(R.id.pass);
         if (pass.getText()==null) {
+            pass.requestFocus();
             TextInputLayout textInputLayout = findViewById(R.id.pass_layout);
             textInputLayout.setError(getString(R.string.empty_message));
             GlobalClass.callAToast(MainActivity.this, getString(R.string.empty_message));
@@ -110,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String passText = pass.getText().toString();
         if(passText.trim().isEmpty()) {
             pass.setText("");
+            pass.requestFocus();
             TextInputLayout textInputLayout = findViewById(R.id.pass_layout);
             textInputLayout.setError(getString(R.string.empty_message));
             GlobalClass.callAToast(MainActivity.this, getString(R.string.empty_message));
@@ -127,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        openActivity(HospitalBeds.class, false);
+                        openActivity(HospitalBeds.class);
                         GlobalClass.callAToast(MainActivity.this, "Signed in successfully");
                     }
                 })
@@ -137,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("SignIn", "Sign in failure\n" + e.getMessage());
                         GlobalClass.callAToast(MainActivity.this,
                                 "Check your mail and password..");
+                        TextInputEditText email = findViewById(R.id.mail);
+                        email.requestFocus();
                         skip_signin.setClickable(true);
                         signInButton.setEnabled(true);
                     }
@@ -146,10 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     // A method which can be called whenever a new activity is to be opened
-    private void openActivity(Class<?> a, boolean isFinish) {
+    private void openActivity(Class<?> a) {
         startActivity(new Intent(this, a));
-        if (isFinish)
-            finish();
     }
 
 }

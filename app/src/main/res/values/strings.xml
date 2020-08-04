@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CCC</string>
+    <string name="app_name">Covid Beds</string>
 
     <!-- Main Activity -->
     <string name="logged_in_before"><u>Logged in before?\nThen Sign in</u></string>
@@ -34,5 +34,10 @@
     <string name="total_beds">Total Beds</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="yes">Yes</string>
+
+
+    <!-- Splash Screen -->
+    <string name="splash_image">Splash Image</string>
 
 </resources>

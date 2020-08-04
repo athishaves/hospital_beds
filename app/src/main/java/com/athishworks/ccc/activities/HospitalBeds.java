@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,12 +15,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.athishworks.ccc.CustomAlertBox;
 import com.athishworks.ccc.CustomDialog;
 import com.athishworks.ccc.GlobalClass;
 import com.athishworks.ccc.R;
 import com.athishworks.ccc.adapter.HospitalAdapter;
 import com.athishworks.ccc.pojomodels.HospitalDetails;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,10 +41,14 @@ public class HospitalBeds extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     List<HospitalDetails> input;
+    List<HospitalDetails> currentInput;
 
     DatabaseReference databaseReference;
 
     EditText searchView;
+
+    ImageView addHospital;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,7 @@ public class HospitalBeds extends AppCompatActivity {
 
 
         input = new ArrayList<>();
+        currentInput = new ArrayList<>();
         initialiseRecyclerView();
         populateList();
 
@@ -81,6 +88,25 @@ public class HospitalBeds extends AppCompatActivity {
 
         editDeleteAdapter();
 
+
+        addHospital = findViewById(R.id.add_hospital);
+        addHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callDialog(new HospitalDetails());
+            }
+        });
+        addHospital.setVisibility(View.GONE);
+
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HospitalBeds.this, LocateCenter.class));
+            }
+        });
+
     }
 
 
@@ -90,13 +116,13 @@ public class HospitalBeds extends AppCompatActivity {
         mAdapter.setListener(new HospitalAdapter.OnItenClickListener() {
             @Override
             public void onEditClick(int position) {
-                callDialog(input.get(position));
+                callDialog(currentInput.get(position));
             }
 
 
             @Override
             public void onDeleteClick(int position) {
-                deleteDataRecord(input.get(position).getKeyId());
+                deleteDataRecord(currentInput.get(position).getKeyId());
             }
         });
     }
@@ -113,24 +139,29 @@ public class HospitalBeds extends AppCompatActivity {
 
     // Delete test center details
 
-    void deleteDataRecord(final String hospitalId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete ?")
-                .setTitle("Deleted data cannot be recovered")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
-                        databaseReference.child(hospitalId).removeValue();
-                        searchView.setText("");
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        builder.show();
+    void deleteDataRecord(String hospitalId) {
+        CustomAlertBox alertBox = new CustomAlertBox(this);
+        alertBox.showDialog(hospitalId, "Deleted data cannot be recovered",
+                "Are your sure you want to delete ?");
     }
+
+
+    // Sign out automatically when you go back or the activity is destroyed
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FirebaseAuth.getInstance().signOut();
+        GlobalClass.callAToast(HospitalBeds.this, "Signed out successfully");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseAuth.getInstance().signOut();
+        GlobalClass.callAToast(HospitalBeds.this, "Signed out successfully");
+    }
+
 
 
     // Initialise search edit text
@@ -147,13 +178,13 @@ public class HospitalBeds extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
                 // If the edit text is empty then the whole list of hospitals will be retained
-                if (s.toString().equals("")) {
+                if (s==null || s.toString().trim().equals("")) {
                     mAdapter.updateList(input);
                     return;
                 }
 
                 // else the list will be filtered
-                filter(s.toString().toLowerCase());
+                filter(s.toString().toLowerCase().trim());
             }
 
             @Override
@@ -173,7 +204,7 @@ public class HospitalBeds extends AppCompatActivity {
             return;
 
         // new array list that will hold the filtered data
-        List<HospitalDetails> filterdNames = new ArrayList<>();
+        currentInput = new ArrayList<>();
 
         // looping through existing elements
         for (HospitalDetails hospital : input) {
@@ -181,12 +212,12 @@ public class HospitalBeds extends AppCompatActivity {
             // if the existing elements contains the search input
             if (hospital.getName().toLowerCase().contains(text) || hospital.getAddress().toLowerCase().contains(text)) {
                 // adding the element to filtered list
-                filterdNames.add(hospital);
+                currentInput.add(hospital);
             }
         }
 
         // calling a method of the adapter class and passing the filtered list
-        mAdapter.updateList(filterdNames);
+        mAdapter.updateList(currentInput);
     }
 
 
@@ -207,7 +238,6 @@ public class HospitalBeds extends AppCompatActivity {
     // Populate the list
 
     private void populateList() {
-        input = new ArrayList<>();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -228,8 +258,16 @@ public class HospitalBeds extends AppCompatActivity {
                     input.add(details);
                 }
 
+                if (input.size()==0)
+                    addHospital.setVisibility(View.VISIBLE);
+                else addHospital.setVisibility(View.GONE);
+
                 mAdapter.updateList(input);
                 GlobalClass.callAToast(HospitalBeds.this, "Hospitals updated");
+
+                currentInput = input;
+                searchView.setText("");
+
             }
 
             @Override

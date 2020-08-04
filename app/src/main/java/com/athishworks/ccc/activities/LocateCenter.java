@@ -78,12 +78,6 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
         mMap.setMinZoomPreference(GlobalClass.zoomPreference);
 
         mMap.setInfoWindowAdapter(new CustomInfoWindow(LocateCenter.this));
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                marker.hideInfoWindow();
-            }
-        });
 
         if (mMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
@@ -99,6 +93,7 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                marker.hideInfoWindow();
                 String[] details = marker.getSnippet().split(GlobalClass.splitCondition);
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 String p = "tel:" + details[2];

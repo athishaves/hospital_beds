@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/edit_care_center_address"
                 android:importantForAutofill="no"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:layout_marginHorizontal="5dp"
                 app:layout_constraintBottom_toTopOf="@id/contact_textview"
                 app:layout_constraintEnd_toEndOf="parent"

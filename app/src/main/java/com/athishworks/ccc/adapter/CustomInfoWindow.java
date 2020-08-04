@@ -1,8 +1,6 @@
 package com.athishworks.ccc.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;

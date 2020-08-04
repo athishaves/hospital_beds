@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -144,13 +145,17 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
     // Get location from the give address...
     // Returns -1 if latitude, longitude is not found
     String getLocation(String locationAddress) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context, Locale.forLanguageTag("kn_IN"));
         String result = "-1";
         try {
             List<Address> addressList = geocoder.getFromLocationName(locationAddress, 1);
             if (addressList != null && addressList.size() > 0) {
                 Address address = addressList.get(0);
-                result = address.getLatitude() + " " + address.getLongitude();
+
+                // Round of latitude and longitude to 8 decimal places
+                DecimalFormat df = new DecimalFormat("0.00000000");
+
+                result = df.format(Double.valueOf(address.getLatitude())) + " " + df.format(Double.valueOf(address.getLongitude()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,15 +167,15 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+        if (timer!=null)
+            timer.cancel();
+
         // ok button is clicked
         if (v.getId()==R.id.ok_button)
             updateDatabase();
 
         // cancel button is clicked
         else dialog.dismiss();
-
-        if (timer!=null)
-            timer.cancel();
 
     }
 
