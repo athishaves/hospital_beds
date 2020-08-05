@@ -145,7 +145,7 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
         if (location!=null)
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),
-                    GlobalClass.zoomPreference + 4));
+                    GlobalClass.zoomPreference + 6));
     }
 
 
