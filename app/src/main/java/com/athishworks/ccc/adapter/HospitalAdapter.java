@@ -62,6 +62,9 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
         a = "Lat : " + curHospital.getLatitude() + "\nLong : " + curHospital.getLongitude();
         holder.location.setText(a);
+
+        a = "Updated by " + curHospital.getUpdatedBy() + " on " + curHospital.getUpdatedTime();
+        holder.timeStamp.setText(a);
     }
 
 
@@ -82,7 +85,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView name, address, bedCount, location, phone;
+        public TextView name, address, bedCount, location, phone, timeStamp;
         public ImageView editButton, deleteButton;
 
         public ViewHolder(View v) {
@@ -92,6 +95,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             bedCount = v.findViewById(R.id.bed_count);
             location = v.findViewById(R.id.location);
             phone = v.findViewById(R.id.phone);
+            timeStamp = v.findViewById(R.id.time_stamp);
 
             editButton = v.findViewById(R.id.edit_button);
             deleteButton = v.findViewById(R.id.delete_button);

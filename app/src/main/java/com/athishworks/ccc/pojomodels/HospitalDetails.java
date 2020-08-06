@@ -1,8 +1,10 @@
 package com.athishworks.ccc.pojomodels;
 
+import java.sql.Timestamp;
+
 public class HospitalDetails {
 
-    String name, address, keyId, phoneNo;
+    String name, address, keyId, phoneNo, updatedBy, updatedTime;
     int totalBeds, availableBeds;
     Double latitude, longitude;
 
@@ -30,6 +32,22 @@ public class HospitalDetails {
         this.latitude = latitude;
         this.longitude = longitude;
         this.phoneNo = phoneNo;
+    }
+
+
+    public HospitalDetails(String name, String address,
+                           int totalBeds, int availableBeds,
+                           Double latitude, Double longitude,
+                           String phoneNo, String updatedBy, String updatedTime) {
+        this.name = name;
+        this.address = address;
+        this.totalBeds = totalBeds;
+        this.availableBeds = availableBeds;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.phoneNo = phoneNo;
+        this.updatedBy = updatedBy;
+        this.updatedTime = updatedTime;
     }
 
 
@@ -65,6 +83,14 @@ public class HospitalDetails {
         return phoneNo;
     }
 
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public String getUpdatedTime() {
+        return updatedTime;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -95,5 +121,13 @@ public class HospitalDetails {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public void setUpdatedTime(String updatedTime) {
+        this.updatedTime = updatedTime;
     }
 }

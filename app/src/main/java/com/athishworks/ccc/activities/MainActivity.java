@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.skip_login:
-                openActivity(LocateCenter.class);
+                openActivity(LocateCenter.class, true);
                 break;
             case R.id.button:
                 signIn();
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        openActivity(HospitalBeds.class);
+                        openActivity(HospitalBeds.class, false);
                         GlobalClass.callAToast(MainActivity.this, "Signed in successfully");
                     }
                 })
@@ -159,8 +159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     // A method which can be called whenever a new activity is to be opened
-    private void openActivity(Class<?> a) {
+    private void openActivity(Class<?> a, boolean isFinish) {
         startActivity(new Intent(this, a));
+        if (isFinish)
+            finish();
     }
 
 }

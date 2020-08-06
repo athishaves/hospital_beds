@@ -16,11 +16,14 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 
 import com.athishworks.ccc.pojomodels.HospitalDetails;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -226,6 +229,16 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
                     Integer.parseInt(hTotalBeds.getText().toString()), Integer.parseInt(hAvailableBeds.getText().toString()),
                     Double.parseDouble(hLatitude.getText().toString()), Double.parseDouble(hLongitude.getText().toString()),
                     hPhone.getText().toString().trim());
+
+        // Add admin email
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser()!=null)
+            hospitalDetails.setUpdatedBy(auth.getCurrentUser().getEmail());
+
+        // Add update timestamp
+
+        hospitalDetails.setUpdatedTime(new Timestamp(new Date().getTime()).toString());
 
 
         // updating the database
