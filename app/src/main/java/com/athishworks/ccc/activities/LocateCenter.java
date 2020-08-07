@@ -122,8 +122,7 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
 
         if (requestCode==GlobalClass.locationPermission) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (!checkLocationPermission())
-                    locationIsTurnedOn();
+                locationIsTurnedOn();
             } else {
                 GlobalClass.callAToast(LocateCenter.this, "Current location is set to Bengaluru");
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(12.9716, 77.5946),
@@ -139,8 +138,13 @@ public class LocateCenter extends FragmentActivity implements OnMapReadyCallback
         if (!checkLocationPermission())
             return;
 
-        mMap.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(12.9716, 77.5946),
+                GlobalClass.zoomPreference + 6));
+
+        mMap.setMyLocationEnabled(true);
         Criteria criteria = new Criteria();
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
         if (location!=null)
